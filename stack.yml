@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  pgalejandro:
+  pgmaldonado:
     image: pgmaldonado:1.0.1
     build: .
     deploy:
