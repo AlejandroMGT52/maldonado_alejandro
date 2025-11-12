@@ -2,26 +2,32 @@ version: "3.8"
 
 services:
   pgalejandro:
+    # 1. CORRECCIÓN: Usar la imagen completa del registro
     image: 127.0.0.1:5001/pgmaldonado:1.0.1
-    build: .
+    
     deploy:
       replicas: 1
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.pgmaldonado.entrypoints=http"
-        - "traefik.http.routers.pgmaldonado.rule=Host(pgmaldonado.byronrm.com)"
+        - "traefik.http.routers.pgmaldonado.rule=Host(`pgmaldonado.byronrm.com`)"
         - "traefik.http.middlewares.pgmaldonado-https-redirect.redirectscheme.scheme=https"
         - "traefik.http.routers.pgmaldonado.middlewares=pgmaldonado-https-redirect"
         - "traefik.http.routers.pgmaldonado-secure.entrypoints=https"
-        - "traefik.http.routers.pgmaldonado-secure.rule=Host(pgmaldonado.byronrm.com)"
+        - "traefik.http.routers.pgmaldonado-secure.rule=Host(`pgmaldonado.byronrm.com`)"
         - "traefik.http.routers.pgmaldonado-secure.tls=true"
         - "traefik.http.routers.pgmaldonado-secure.tls.certresolver=http"
         - "traefik.http.routers.pgmaldonado-secure.service=pgmaldonado"
         - "traefik.http.services.pgmaldonado.loadbalancer.server.port=80"
-        - "traefik.docker.network=traefik-public"
+        
+        # 2. CORRECCIÓN: Usar la red correcta donde vive Traefik
+        - "traefik.docker.network=portainer_default"
+        
     networks:
-      - traefik-public
+      # 3. CORRECCIÓN: Conectar el servicio a esa misma red
+      - portainer_default
 
 networks:
-  traefik-public:
+  # 4. CORRECCIÓN: Definir la red de Traefik como externa
+  portainer_default:
     external: true
