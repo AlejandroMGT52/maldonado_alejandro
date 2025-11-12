@@ -1,17 +1,14 @@
-APP_NAME=pgmoreno
+APP_NAME=pgmaldonado
 STACK_FILE=stack.yml
 
 build:
-	docker build -t $(APP_NAME):latest .
+	docker build -t pgmaldonado:1.0.1 .
 
 deploy:
-	docker stack deploy --with-registry-auth -c $(STACK_FILE) $(APP_NAME)
-
-logs:
-	docker service logs -f $(APP_NAME)_$(APP_NAME)
+	docker stack deploy --with-registry-auth -c stack.yml doraemon
 
 rm:
-	docker stack rm $(APP_NAME)
+	docker stack rm doraemon
 
 ps:
 	docker service ls
