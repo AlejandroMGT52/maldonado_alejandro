@@ -1,8 +1,8 @@
 version: "3.8"
 
 services:
-  pgmaldonado:
-    image: pgmaldonado:1.0.1
+  pgalejandro:
+    image: 127.0.0.1:5001/pgmaldonado:1.0.1
     build: .
     deploy:
       replicas: 1
